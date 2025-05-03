@@ -72,3 +72,79 @@ O BugBank é uma plataforma bancária web que oferece funcionalidades como cadas
 - Deve exibir o **saldo disponível**.
 - Cada transação exibe:
   - **Data**
+  - **Tipo** (Abertura / Transferência enviada / recebida)
+- **Valor**:
+  - **Vermelho** e negativo (-) para saídas
+  - **Verde** para entradas
+- Comentários ausentes devem exibir (-).
+
+---
+
+### 2.5 Módulos em Desenvolvimento
+
+- **Pagamento:** Em fase de desenvolvimento.  
+- **Saque:** Em fase de desenvolvimento.
+
+---
+
+## 3. Plano de Testes
+
+### 3.1 Objetivo dos Testes
+
+Validar se as funcionalidades implementadas (Login, Cadastro, Transferência, Extrato) cumprem os requisitos definidos.
+
+### 3.2 Escopo
+
+- **Funcionalidades testadas:** Login, Cadastro, Transferência e Extrato  
+- **Funcionalidades não testadas:** Pagamento e Saque (em desenvolvimento)
+
+### 3.3 Abordagem
+
+- **Tipo de teste:** Manual, funcional  
+- **Técnica:** Baseada em risco (prioridade alta: login, transferência e extrato)  
+- **Adicional:** Testes exploratórios
+
+### 3.4 Critérios
+
+**Entrada:**  
+- Sistema BugBank online  
+- Funcionalidades disponíveis para teste  
+
+**Saída:**  
+- Todos os casos executados  
+- Defeitos críticos resolvidos  
+
+**Aceitação:**  
+- Funcionalidades com comportamento conforme esperado  
+- Tempos de resposta aceitáveis
+
+### 3.5 Ferramentas e Ambiente
+
+- **Dispositivo:** Windows 11  
+- **Navegador:** Chrome 135+  
+- **Gestão:** Jira (atividades), Qase (testes), Jam (bugs)  
+- **URL:** [https://bugbank.netlify.app/](https://bugbank.netlify.app/)
+
+### 3.6 Riscos
+
+| Risco                                   | Mitigação                                            |
+| --------------------------------------- | ---------------------------------------------------- |
+| Defeitos críticos descobertos tardiamente | Priorizar testes críticos primeiro                   |
+| Falhas de comunicação                  | Reuniões diárias e ferramentas de gestão (Jira/Asana) |
+
+### 3.7 Cronograma
+
+| Fase                                       | Início      | Fim        |
+| ------------------------------------------ | ----------- | ---------- |
+| Desenvolvimento de Casos de Teste          | 04/05/2025  | 06/05/2025 |
+| Execução dos Testes e Reporte de Bugs      | 07/05/2025  | 11/05/2025 |
+| Revisão e Resultados Finais                | 12/05/2025  | 14/05/2025 |
+
+---
+
+## 4. Entregáveis
+
+- Documento Unificado (SRS + Plano de Testes)  
+- Casos de Teste  
+- Relatório de Bugs  
+- Relatório de Resultados
