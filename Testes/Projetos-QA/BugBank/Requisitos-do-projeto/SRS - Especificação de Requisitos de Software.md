@@ -1,5 +1,6 @@
 # SRS - Especificação de Requisitos de Software  
 
+
 **Sistema:** BugBank
 **Versão:** 1.0
 **Data:** 03/05/2025
