@@ -7,7 +7,15 @@
 ---
 
 ## 1. Visão Geral  
-Este documento descreve os requisitos funcionais e não funcionais do sistema **BugBank**, com foco nos módulos de **Login**, **Cadastro**, **Transferência** e observações sobre **Pagamento**. O objetivo é assegurar que cada funcionalidade atenda aos critérios esperados e forneça uma base clara para os testes.
+Este documento especifica os requisitos funcionais e não funcionais do sistema **BugBank**, uma aplicação com o objetivo de simular transações bancárias e oferecer um ambiente de testes intencionalmente com falhas para fins educativos e de QA.  
+
+Os módulos cobertos incluem:  
+- Login  
+- Cadastro  
+- Transferência  
+- Pagamento (em desenvolvimento)  
+- Extrato  
+- Saque (em desenvolvimento)  
 
 ---
 
@@ -19,66 +27,61 @@ Este documento descreve os requisitos funcionais e não funcionais do sistema **
 - O sistema deve exigir o preenchimento dos campos **e-mail** e **senha** para tentar login.  
 
 #### RF002 - Validação de campos vazios  
-- Se o usuário tentar realizar login sem preencher um ou ambos os campos obrigatórios, o sistema deve exibir a mensagem:  
+- Se o usuário tentar realizar login sem preencher um ou ambos os campos obrigatórios, o sistema deve exibir:  
   **"Usuário e senha precisam ser preenchidos"**.  
 
 #### RF003 - Validação de credenciais  
-- O sistema **não deve permitir** acesso caso o e-mail e/ou senha informados **não correspondam a um usuário previamente cadastrado**.  
+- O sistema **não deve permitir acesso** caso o e-mail e/ou senha não correspondam a um usuário previamente cadastrado.  
 
 #### RF004 - Redirecionamento após login bem-sucedido  
-- Se o usuário informar credenciais válidas, o sistema deve redirecioná-lo para a tela **Home** do sistema.  
+- Com credenciais válidas, o usuário deve ser redirecionado para a tela **Home**.  
 
 ---
 
 ### 2.2 Módulo: Cadastro  
 
 #### RF005 - Campos obrigatórios  
-- Os campos **Nome**, **Email**, **Senha** e **Confirmação de Senha** são de preenchimento obrigatório.  
+- Os campos **Nome**, **Email**, **Senha** e **Confirmação de senha** são obrigatórios.  
 
-#### RF006 - Validação de campos vazios  
-- Nome vazio → **"Nome não pode ser vazio"**  
-- Email vazio → **"Email não pode ser vazio"**  
-- Senha vazia → **"Senha não pode ser vazio"**  
-- Confirmação de senha vazia → **"Confirmar senha não pode ser vazio"**  
+#### RF006 - Validações individuais  
+- Nome vazio: "Nome não pode ser vazio"  
+- Email vazio: "Email não pode ser vazio"  
+- Senha vazia: "Senha não pode ser vazio"  
+- Confirmação vazia: "Confirmar senha não pode ser vazio"  
 
-#### RF007 - Criação de conta com ou sem saldo  
-- Se o usuário marcar a opção **"Criar conta com saldo"**, a conta deve ser criada com **R$ 1.000,00**.  
-- Se a opção estiver desmarcada, a conta deve ser criada com **R$ 0,00**.  
+#### RF007 - Saldo inicial  
+- Com a opção "Criar conta com saldo" **ativa**, a conta é criada com **R$ 1.000,00**.  
+- Com a opção **inativa**, a conta é criada com **R$ 0,00**.  
 
-#### RF008 - Validação de senhas  
-- O sistema deve validar se **senha** e **confirmação de senha** são **iguais**.  
+#### RF008 - Senhas iguais  
+- As senhas e a confirmação devem **obrigatoriamente coincidir**.  
 
-#### RF009 - Confirmação de cadastro  
-- Ao cadastrar com sucesso, o sistema deve exibir o **número da conta criada**.  
+#### RF009 - Confirmação de criação  
+- Após cadastro com sucesso, deve ser exibido o **número da conta criada**.  
 
 ---
 
 ### 2.3 Módulo: Transferência  
 
-#### RF010 - Transferência para contas válidas  
-- Somente será permitida transferência para **contas existentes e válidas**.  
+#### RF010 - Contas válidas  
+- Só é permitida a transferência para **contas válidas e existentes**.  
 
-#### RF011 - Validação de saldo  
-- A transferência só será concluída se o **valor da transação for menor ou igual ao saldo disponível**.  
+#### RF011 - Verificação de saldo  
+- A transferência só é possível se o **saldo for igual ou superior ao valor transferido**.  
 
 #### RF012 - Conta inválida  
-- Caso a conta de destino seja inválida ou inexistente, exibir:  
+- Transferência para conta inexistente deve exibir:  
   **"Conta inválida ou inexistente"**.  
 
-#### RF013 - Validação de número da conta  
-- O campo **número da conta e dígito** deve aceitar apenas **números**.  
+#### RF013 - Validações adicionais  
+- Número e dígito da conta devem aceitar **somente números**.  
+- Campo **descrição** é obrigatório.  
+- Valor da transferência deve ser **maior que zero**.  
 
-#### RF014 - Campo de descrição obrigatório  
-- O campo de **descrição da transferência** é de preenchimento obrigatório.  
-
-#### RF015 - Valor inválido  
-- O valor da transferência não pode ser **igual ou menor que zero**.  
-
-#### RF016 - Transferência concluída  
-- Após uma transferência bem-sucedida, deve:  
-  - Debitar o valor da conta origem  
-  - Exibir a mensagem: **"Transferência realizada com sucesso"**  
-  - Redirecionar o usuário para a tela de **extrato**  
+#### RF014 - Transferência bem-sucedida  
+- O valor deve ser debitado e a mensagem exibida:  
+  **"Transferência realizada com sucesso"**.  
+- Usuário deve ser redirecionado automaticamente para o **extrato**.  
 
 ---
 
@@ -88,80 +91,119 @@ Este documento descreve os requisitos funcionais e não funcionais do sistema **
 
 ---
 
+### 2.5 Módulo: Extrato  
+
+#### RF017 - Exibição de saldo  
+- O extrato deve mostrar o **saldo atual disponível** na conta.  
+
+#### RF018 - Exibição de transações  
+- Cada transação deve exibir:  
+  - **Data da transação**  
+  - **Tipo**: Abertura de conta / Transferência enviada / Transferência recebida  
+
+#### RF019 - Cores e sinais  
+- Valores de **saída**: em **vermelho** com prefixo **"-"**.  
+- Valores de **entrada**: em **verde**.  
+
+#### RF020 - Transações sem comentário  
+- Devem exibir o símbolo: **"(-)"**.  
+
+---
+
+### 2.6 Módulo: Saque  
+
+> ⚠️ Funcionalidade em desenvolvimento.  
+
+---
+
 ## 3. Requisitos Não Funcionais  
 
 ### RNF001 - Tempo de resposta  
-- A autenticação e transações devem ser processadas em até **2 segundos**.  
+- A autenticação deve ocorrer em até **2 segundos** após o envio das credenciais.  
 
 ### RNF002 - Segurança  
-- Todas as informações sensíveis, especialmente **senhas**, devem ser transmitidas via **HTTPS (criptografado)**.  
+- As senhas devem ser transmitidas via **HTTPS**, garantindo **criptografia**.  
 
 ### RNF003 - Compatibilidade  
-- O sistema deve funcionar nos principais navegadores modernos: **Chrome, Firefox, Edge e Safari**.  
+- O sistema deve funcionar em navegadores modernos:  
+  - **Google Chrome**  
+  - **Mozilla Firefox**  
+  - **Microsoft Edge**  
+  - **Safari**  
 
 ---
 
 ## 4. Regras de Negócio  
 
-- O sistema **não deve informar qual campo (e-mail ou senha)** está incorreto durante o login.  
-- O campo **descrição** na transferência é sempre obrigatório.  
-- A conta só é criada se todos os campos obrigatórios forem preenchidos corretamente e as senhas coincidirem.  
+- A autenticação é válida apenas se o **par e-mail/senha** corresponder exatamente ao cadastro existente.  
+- O sistema **não deve indicar qual campo está incorreto** (e-mail ou senha), para evitar vazamento de informações.  
 
 ---
 
 ## 5. Casos de Uso Relacionados  
 
-| ID     | Nome                  | Descrição Breve                                               |
-|--------|-----------------------|----------------------------------------------------------------|
-| UC001  | Realizar Login         | Permitir que um usuário acesse o sistema após autenticação.   |
-| UC002  | Realizar Cadastro      | Permitir que um usuário crie uma nova conta no sistema.       |
-| UC003  | Realizar Transferência | Efetuar uma transferência entre contas válidas.               |
+| ID    | Nome                   | Descrição                                             |
+|-------|------------------------|--------------------------------------------------------|
+| UC001 | Realizar Login         | Permitir que um usuário acesse o sistema.             |
+| UC002 | Realizar Cadastro      | Criar uma nova conta bancária.                        |
+| UC003 | Realizar Transferência | Efetuar uma transferência entre contas existentes.    |
+| UC004 | Visualizar Extrato     | Visualizar o histórico de transações da conta.        |
+| UC005 | Realizar Saque         | (Em desenvolvimento) Permitir saques bancários.       |
 
 ---
 
-## 6. Fluxo Básico dos Casos de Uso  
+## 6. Fluxos Básicos dos Casos de Uso  
 
 ### UC001 - Realizar Login  
-1. Usuário acessa a tela de login  
-2. Informa e-mail e senha  
-3. Clica em "Entrar"  
+1. Usuário acessa a tela de login.  
+2. Preenche e-mail e senha.  
+3. Clica em "Entrar".  
 4. Sistema valida os dados:  
-   - Se vazios → exibe mensagem de erro  
-   - Se inválidos → exibe mensagem genérica  
-   - Se válidos → redireciona para a home  
+   - Vazios: exibe erro.  
+   - Inválidos: exibe erro genérico.  
+   - Válidos: redireciona para a Home.  
 
 ### UC002 - Realizar Cadastro  
-1. Usuário acessa a tela de cadastro  
-2. Preenche os campos obrigatórios  
-3. Define se quer conta com saldo ou não  
-4. Clica em "Cadastrar"  
-5. Sistema valida dados:  
-   - Campos vazios → exibe mensagens específicas  
-   - Senhas diferentes → exibe erro  
-   - Dados corretos → cria conta e exibe número  
+1. Usuário acessa a tela de cadastro.  
+2. Preenche os campos obrigatórios.  
+3. Escolhe se quer criar conta com saldo.  
+4. Informa senhas idênticas.  
+5. Clica em "Cadastrar".  
+6. Se tudo estiver correto, a conta é criada com saldo definido, e o número da conta é exibido.  
 
 ### UC003 - Realizar Transferência  
-1. Usuário logado acessa tela de transferência  
-2. Preenche número da conta de destino, valor e descrição  
-3. Clica em "Transferir"  
-4. Sistema valida dados:  
-   - Conta inválida → exibe erro  
-   - Saldo insuficiente → exibe erro  
-   - Dados válidos → realiza transferência, debita valor e redireciona ao extrato  
+1. Usuário acessa a tela de transferência.  
+2. Preenche número, dígito, valor e descrição.  
+3. Clica em "Transferir".  
+4. Sistema valida as informações:  
+   - Conta inválida: exibe erro.  
+   - Valor inválido ou saldo insuficiente: exibe erro.  
+   - Dados válidos: realiza a transferência, debita o valor, mostra mensagem de sucesso e redireciona para o extrato.  
+
+### UC004 - Visualizar Extrato  
+1. Usuário acessa o extrato.  
+2. Sistema exibe saldo atual e lista de transações com:  
+   - Data  
+   - Tipo  
+   - Valor (com sinal e cor)  
+   - Descrição ou "(-)"  
+
+### UC005 - Realizar Saque  
+> ⚠️ Em desenvolvimento.  
 
 ---
 
 ## 7. Mensagens de Erro  
 
-| Situação                                           | Mensagem exibida                                 |
-|---------------------------------------------------|--------------------------------------------------|
-| Campos de login vazios                            | "Usuário e senha precisam ser preenchidos"       |
-| Credenciais inválidas                              | "Usuário e/ou senha inválidos"                   |
-| Nome não preenchido no cadastro                   | "Nome não pode ser vazio"                        |
-| Email não preenchido no cadastro                  | "Email não pode ser vazio"                       |
-| Senha não preenchida no cadastro                  | "Senha não pode ser vazio"                       |
-| Confirmação de senha vazia                        | "Confirmar senha não pode ser vazio"             |
-| Conta de destino inválida na transferência        | "Conta inválida ou inexistente"                  |
-| Valor da transferência menor ou igual a zero      | "Valor inválido" (mensagem sugerida)             |
+| Situação                                     | Mensagem exibida                                 |
+|---------------------------------------------|--------------------------------------------------|
+| Campos de login vazios                      | "Usuário e senha precisam ser preenchidos"       |
+| Credenciais inválidas                       | "Usuário e/ou senha inválidos"                   |
+| Nome em branco no cadastro                  | "Nome não pode ser vazio"                        |
+| Email em branco no cadastro                 | "Email não pode ser vazio"                       |
+| Senha em branco no cadastro                 | "Senha não pode ser vazio"                       |
+| Confirmação em branco no cadastro           | "Confirmar senha não pode ser vazio"             |
+| Conta inválida na transferência             | "Conta inválida ou inexistente"                  |
+| Valor de transferência zero ou negativo     | "Valor inválido para transferência" *(sugestão)* |
 
 ---
