@@ -3,7 +3,7 @@
 ### Sistema: BugBank  
 **Versão:** 1.0  
 **Data:** 03/05/2025  
-**Responsável:** [Seu nome aqui]
+**Responsável:** Luis Lopes
 
 ---
 
